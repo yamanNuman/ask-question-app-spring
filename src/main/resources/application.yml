@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url: jdbc:h2:file:./askquestiondb
+    username: root
+    password: root
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: h2
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+      path: /api/v1/h2
+
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /api/v1/swagger-ui
+  api-docs.path: /api/v1/api-docs
