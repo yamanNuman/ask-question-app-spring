@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Post {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
     private Integer userId;
     private String title;
