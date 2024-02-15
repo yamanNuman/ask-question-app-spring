@@ -1,24 +1,34 @@
 package com.ymnn.askquestion.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "likes")
-public class Like {
-    @Id
-    @GeneratedValue
-    private Integer id;
-    private Integer postId;
-    private Integer userId;
-}
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Entity
+    @Table(name = "likes")
+    public class Like {
+        @Id
+        @GeneratedValue
+
+        private Integer id;
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "post_id", nullable = false)
+        @OnDelete(action = OnDeleteAction.CASCADE)
+        @JsonIgnore
+        private Post post;
+
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "user_id",nullable = false)
+        @OnDelete(action = OnDeleteAction.CASCADE)
+        @JsonIgnore
+        private User user;
+    }

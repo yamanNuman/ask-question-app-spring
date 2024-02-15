@@ -20,9 +20,9 @@ spring:
   h2:
     console:
       enabled: true
-      path: /api/v1/h2
+      path: /api/v1/test/h2
 springdoc:
   swagger-ui:
     enabled: true
-    path: /api/v1/swagger-ui
-  api-docs.path: /api/v1/api-docs
+    path: /api/v1/test/swagger-ui
+  api-docs.path: /api/v1/test/api-docs
