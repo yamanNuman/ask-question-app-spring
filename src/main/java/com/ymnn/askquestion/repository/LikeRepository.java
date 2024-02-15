@@ -1,6 +1,6 @@
 package com.ymnn.askquestion.repository;
 
-import com.ymnn.askquestionapp.entity.Like;
+import com.ymnn.askquestion.entity.Like;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LikeRepository extends JpaRepository<Like, Integer> {
