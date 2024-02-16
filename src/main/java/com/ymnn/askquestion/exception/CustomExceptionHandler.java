@@ -26,4 +26,12 @@ public class CustomExceptionHandler {
         errorMap.put("Error Message", exception.getMessage());
         return errorMap;
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(CommentNotFoundException.class)
+    public Map<String, String> handleCommentNotFoundException(CommentNotFoundException exception) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("Error Message", exception.getMessage());
+        return errorMap;
+    }
 }
