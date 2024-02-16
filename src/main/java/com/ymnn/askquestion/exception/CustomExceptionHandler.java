@@ -18,4 +18,12 @@ public class CustomExceptionHandler {
         errorMap.put("Error Message", exception.getMessage());
         return errorMap;
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(PostNotFoundException.class)
+    public Map<String, String> handlePostNotFoundException(PostNotFoundException exception) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("Error Message", exception.getMessage());
+        return errorMap;
+    }
 }

@@ -1,6 +1,7 @@
 package com.ymnn.askquestion.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +19,7 @@ import org.hibernate.annotations.OnDeleteAction;
     public class Like {
         @Id
         @GeneratedValue
-
+        @JsonProperty(access = JsonProperty.Access.READ_ONLY)
         private Integer id;
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "post_id", nullable = false)

@@ -52,3 +52,9 @@ org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "\000d\00
         username varchar(255),
         primary key (id)
     ) [42001-224]
+2024-02-16 13:17:17.322432+03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'' (USERS: ""ID"" INTEGER NOT NULL)"; SQL statement:
+INSERT INTO "PUBLIC"."USERS"("ID","PASSWORD","USERNAME")VALUES(?,?,?) [22018-224]
+2024-02-16 13:17:17.325029+03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'' (USERS: ""ID"" INTEGER NOT NULL)"; SQL statement:
+INSERT INTO "PUBLIC"."USERS"("ID","PASSWORD","USERNAME")VALUES(?,?,?) [22018-224]
