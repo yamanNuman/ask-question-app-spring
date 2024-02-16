@@ -34,4 +34,12 @@ public class CustomExceptionHandler {
         errorMap.put("Error Message", exception.getMessage());
         return errorMap;
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(LikeNotFoundException.class)
+    public Map<String, String> handleLikeNotFoundException(LikeNotFoundException exception) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("Error Message", exception.getMessage());
+        return errorMap;
+    }
 }

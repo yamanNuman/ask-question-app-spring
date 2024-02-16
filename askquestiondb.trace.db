@@ -58,3 +58,6 @@ INSERT INTO "PUBLIC"."USERS"("ID","PASSWORD","USERNAME")VALUES(?,?,?) [22018-224
 2024-02-16 13:17:17.325029+03:00 jdbc[13]: exception
 org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'' (USERS: ""ID"" INTEGER NOT NULL)"; SQL statement:
 INSERT INTO "PUBLIC"."USERS"("ID","PASSWORD","USERNAME")VALUES(?,?,?) [22018-224]
+2024-02-17 00:13:12.134145+03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "select * [*]frome likes where post_id=52 AND is_like=true"; SQL statement:
+select * frome likes where post_id=52 AND is_like=true [42000-224]
