@@ -1,8 +1,6 @@
 package com.ymnn.askquestion.controller;
 
 import com.ymnn.askquestion.entity.User;
-import com.ymnn.askquestion.repository.UserRepository;
-import com.ymnn.askquestion.exception.UserNotFoundException;
 import com.ymnn.askquestion.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

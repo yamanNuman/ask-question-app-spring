@@ -17,8 +17,8 @@ import java.util.Optional;
 public class PostController {
     private final PostService postService;
 
-    @GetMapping("/posts")
-    public ResponseEntity<List<Post>> getAllPost(@RequestParam Optional<Integer> userId){
+    @GetMapping("/posts/{userId}")
+    public ResponseEntity<List<Post>> getAllPost(@PathVariable Optional<Integer> userId){
         return ResponseEntity.ok(postService.getAllPost(userId));
     }
     @GetMapping("/post/{id}")

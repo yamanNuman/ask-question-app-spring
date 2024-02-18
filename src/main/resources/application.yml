@@ -1,8 +1,8 @@
 spring:
-  security:
-    user:
-      name: admin
-      password: admin
+#  security:
+#    user:
+#      name: admin
+#      password: admin
   datasource:
     url: jdbc:h2:file:./askquestiondb
     username: root

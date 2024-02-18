@@ -8,7 +8,6 @@ import com.ymnn.askquestion.exception.UserNotFoundException;
 import com.ymnn.askquestion.repository.PostRepository;
 import com.ymnn.askquestion.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
