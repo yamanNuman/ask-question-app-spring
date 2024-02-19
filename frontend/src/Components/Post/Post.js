@@ -16,7 +16,7 @@ import {useState} from "react";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: 800,
+        width: 1000,
         textAlign : "left",
         margin : 20
     },
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
         }),
     },
     avatar: {
-        background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+        background: 'linear-gradient(45deg, #3c6e71 30%, #21CBF3 90%)',
     },
     link: {
         textDecoration : "none",
