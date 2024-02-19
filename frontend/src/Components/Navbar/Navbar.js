@@ -29,7 +29,7 @@ function Navbar(props) {
     const classes = useStyles();
     return (
         <div>
-            <AppBar style={{background : "#1d3557"}} position="static">
+            <AppBar style={{background : "#3c6e71"}} position="static">
                 <Toolbar>
                     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                         <MenuIcon />

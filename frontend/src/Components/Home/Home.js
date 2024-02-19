@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Post from "../Post/Post";
-import {Container, makeStyles} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core";
+import PostForm from "../Post/PostForm";
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -8,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
         flexWrap: "wrap",
         justifyContent : "center",
         alignItems : "center",
-        backgroundColor: '#e5e5e5',
+        backgroundColor: '#d9d9d9',
     }
 }));
 function Home() {
@@ -37,11 +38,12 @@ function Home() {
         return <div>Loading...</div>
     } else {
         return (
-            <Container fixed className={classes.container}>
+            <div className={classes.container}>
+                <PostForm/>
                 {post.map(item => (
                     <Post username={item.username} userId={item.userId} title={item.title} text={item.text}></Post>
                 ))}
-            </Container>
+            </div>
         );
     }
 }

@@ -7,5 +7,4 @@ function User(props) {
         <div>USER - {userId}</div>
     );
 }
-
 export default User;
