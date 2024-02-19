@@ -2,24 +2,49 @@ import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import CommentIcon from '@mui/icons-material/Comment';
+import {makeStyles} from "@material-ui/core";
+import {Link} from "react-router-dom";
+import {useState} from "react";
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        width: 800,
+        textAlign : "left",
+        margin : 20
+    },
+    media: {
+        height: 0,
+        paddingTop: '56.25%', // 16:9
+    },
+    expand: {
+        transform: 'rotate(0deg)',
+        marginLeft: 'auto',
+        transition: theme.transitions.create('transform', {
+            duration: theme.transitions.duration.shortest,
+        }),
+    },
+    avatar: {
+        background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+    },
+    link: {
+        textDecoration : "none",
+        boxShadow : "none",
+        color : "white"
+    }
+}));
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
 })(({ theme, expand }) => ({
-    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
     marginLeft: 'auto',
     transition: theme.transitions.create('transform', {
         duration: theme.transitions.duration.shortest,
@@ -27,28 +52,30 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function Post(props) {
-    const{title,text} = props;
+    const classes = useStyles();
+    const{userId,username,title,text} = props;
     const [expanded, setExpanded] = React.useState(false);
+    const [like,setLike] = useState(false);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
+    const handleLike = () => {
+        setLike(!like)
+    }
 
     return (
-        <Card sx={{ maxWidth: 345 }}>
+        <Card className={classes.root}>
             <CardHeader
                 avatar={
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                        R
-                    </Avatar>
-                }
-                action={
-                    <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                    </IconButton>
+                    <Link to={`/users/${userId}`} className={classes.link}>
+                        <Avatar className={classes.avatar} aria-label="recipe">
+                            {username.charAt(0).toUpperCase()}
+                        </Avatar>
+                    </Link>
+
                 }
                 title={title}
-                subheader="September 14, 2016"
             />
             <CardContent>
                 <Typography variant="body2" color="text.secondary">
@@ -56,11 +83,8 @@ export default function Post(props) {
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                </IconButton>
-                <IconButton aria-label="share">
-                    <ShareIcon />
+                <IconButton onClick={handleLike} aria-label="add to favorites">
+                    <FavoriteIcon style={like ? {color : "red"} : null}/>
                 </IconButton>
                 <ExpandMore
                     expand={expanded}
@@ -68,7 +92,7 @@ export default function Post(props) {
                     aria-expanded={expanded}
                     aria-label="show more"
                 >
-                    <ExpandMoreIcon />
+                    <CommentIcon />
                 </ExpandMore>
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>

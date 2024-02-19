@@ -1,6 +1,7 @@
 package com.ymnn.askquestion.service;
 
 import com.ymnn.askquestion.dto.request.PostRequest;
+import com.ymnn.askquestion.dto.response.PostResponse;
 import com.ymnn.askquestion.entity.Post;
 import com.ymnn.askquestion.entity.User;
 import com.ymnn.askquestion.exception.PostNotFoundException;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,11 +20,14 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-    public List<Post> getAllPost(Optional<Integer> userId) {
-        if(userId.isEmpty()){
-            return (List<Post>) new PostNotFoundException("Post not found with the given id : " + userId.get());
+    public List<PostResponse> getAllPost(Optional<Integer> userId) {
+        List<Post> list;
+        if(userId.isPresent()){
+           list = postRepository.findByUserId(userId.get());
+        } else {
+            list = postRepository.findAll();
         }
-        return postRepository.findByUserId(userId);
+        return list.stream().map(post -> new PostResponse(post)).collect(Collectors.toList());
     }
 
     public Post getPostById(Integer id) {

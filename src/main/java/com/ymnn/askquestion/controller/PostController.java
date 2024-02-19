@@ -1,6 +1,7 @@
 package com.ymnn.askquestion.controller;
 
 import com.ymnn.askquestion.dto.request.PostRequest;
+import com.ymnn.askquestion.dto.response.PostResponse;
 import com.ymnn.askquestion.entity.Post;
 import com.ymnn.askquestion.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,8 @@ import java.util.Optional;
 public class PostController {
     private final PostService postService;
 
-    @GetMapping("/posts/{userId}")
-    public ResponseEntity<List<Post>> getAllPost(@PathVariable Optional<Integer> userId){
+    @GetMapping("/posts")
+    public ResponseEntity<List<PostResponse>> getAllPost(@RequestParam Optional<Integer> userId){
         return ResponseEntity.ok(postService.getAllPost(userId));
     }
     @GetMapping("/post/{id}")

@@ -1,15 +1,24 @@
 import React, {useEffect, useState} from 'react';
 import Post from "../Post/Post";
-import './Home.scss'
+import {Container, makeStyles} from "@material-ui/core";
 
+const useStyles = makeStyles((theme) => ({
+    container: {
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent : "center",
+        alignItems : "center",
+        backgroundColor: '#e5e5e5',
+    }
+}));
 function Home() {
-    let userId = 1;
+    const classes = useStyles();
     const [error,setError] = useState(null);
     const [post,setPost] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/v1/posts/"+ userId)
+        fetch("http://localhost:8080/api/v1/posts")
             .then((response) => response.json())
             .then((result) => {
                 setIsLoaded(true)
@@ -28,11 +37,11 @@ function Home() {
         return <div>Loading...</div>
     } else {
         return (
-            <div className="container">
+            <Container fixed className={classes.container}>
                 {post.map(item => (
-                    <Post title={item.title} text={item.text}></Post>
+                    <Post username={item.username} userId={item.userId} title={item.title} text={item.text}></Post>
                 ))}
-            </div>
+            </Container>
         );
     }
 }
