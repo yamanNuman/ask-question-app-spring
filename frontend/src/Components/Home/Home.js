@@ -18,18 +18,22 @@ function Home() {
     const [post,setPost] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
 
+    const refreshPost = () => {
+            fetch("http://localhost:8080/api/v1/posts")
+                .then((response) => response.json())
+                .then((result) => {
+                    setIsLoaded(true)
+                    setPost(result)
+                    console.log(result)
+                }, (error) => {
+                    console.log(error)
+                    setIsLoaded(true);
+                    setError(error);
+                })
+    }
+
     useEffect(() => {
-        fetch("http://localhost:8080/api/v1/posts")
-            .then((response) => response.json())
-            .then((result) => {
-                setIsLoaded(true)
-                setPost(result)
-                console.log(result)
-            }, (error) => {
-                console.log(error)
-                setIsLoaded(true);
-                setError(error);
-            })
+       refreshPost()
     },[]);
 
     if(error) {
@@ -39,9 +43,9 @@ function Home() {
     } else {
         return (
             <div className={classes.container}>
-                <PostForm/>
+                <PostForm refreshPost={refreshPost}/>
                 {post.map(item => (
-                    <Post username={item.username} userId={item.userId} title={item.title} text={item.text}></Post>
+                    <Post postId={item.id} username={item.username} userId={item.userId} title={item.title} text={item.text}></Post>
                 ))}
             </div>
         );

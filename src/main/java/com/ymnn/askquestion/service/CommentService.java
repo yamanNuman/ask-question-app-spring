@@ -1,6 +1,7 @@
 package com.ymnn.askquestion.service;
 
 import com.ymnn.askquestion.dto.request.CommentRequest;
+import com.ymnn.askquestion.dto.response.CommentResponse;
 import com.ymnn.askquestion.entity.Comment;
 import com.ymnn.askquestion.entity.Post;
 import com.ymnn.askquestion.entity.User;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,8 +23,10 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
     private final PostRepository postRepository;
-    public List<Comment> getAllComments(Integer postId) {
-        return commentRepository.findByPostId(postId);
+    public List<CommentResponse> getAllComments(Integer postId) {
+        List<Comment> list;
+        list = commentRepository.findByPostId(postId);
+        return list.stream().map(comment -> new CommentResponse(comment)).collect(Collectors.toList());
     }
 
     public List<Comment> getUserComments(Integer postId, Integer userId) {

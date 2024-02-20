@@ -5,9 +5,10 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import {Button, InputAdornment, makeStyles, OutlinedInput} from "@material-ui/core";
+import {Button, InputAdornment, makeStyles, OutlinedInput, Snackbar} from "@material-ui/core";
 import {Link} from "react-router-dom";
 import {useState} from "react";
+import {Alert} from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -38,9 +39,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PostForm(props) {
     const classes = useStyles();
-    const{userId,username} = props;
+    const{userId,username,refreshPost} = props;
     const[text,setText] = useState('');
     const[title,setTitle] = useState('');
+    const[isSent,setIsSet] = useState(false);
 
     const savePost = () => {
         fetch(`http://localhost:8080/api/v1/post/1`,
@@ -52,7 +54,7 @@ export default function PostForm(props) {
                 body: JSON.stringify({
                     title: title,
                     text: text,
-                })
+                }),
             })
             .then((res) => res.json())
             .catch((err) => console.log(err))
@@ -60,17 +62,38 @@ export default function PostForm(props) {
 
     const handleSubmit = () => {
         savePost();
-        window.location.reload(false);
+        setIsSet(true);
+        setTitle("");
+        setText("");
+        refreshPost();
+        window.location.reload();
     }
     const handleTitle = (value) => {
         setTitle(value);
+        setIsSet(false);
     }
     const handleText = (value) => {
         setText(value);
+        setIsSet(false);
     }
-
+    const handleClose = (event,reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setIsSet(false);
+    }
     return (
        <div>
+           <Snackbar open={isSent} autoHideDuration={6000} onClose={handleClose}>
+               <Alert
+                   onClose={handleClose}
+                   severity="success"
+                   variant="filled"
+                   sx={{ width: '100%' }}
+               >
+                   This is a success Alert inside a Snackbar!
+               </Alert>
+           </Snackbar>
            <Card className={classes.root}>
             <CardHeader
                 avatar={
@@ -87,6 +110,7 @@ export default function PostForm(props) {
                 placeholder="Title"
                 inputProps={{maxLength : 25}}
                 fullWidth
+                value = {title}
                 onChange = {(i) => handleTitle(i.target.value)}
                 >
                 </OutlinedInput>}
@@ -99,6 +123,7 @@ export default function PostForm(props) {
                         placeholder="Text"
                         inputProps={{maxLength : 225}}
                         fullWidth
+                        value={text}
                         onChange = {(i) => handleText(i.target.value)}
                         endAdornment={
                             <InputAdornment position="end">

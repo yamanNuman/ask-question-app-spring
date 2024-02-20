@@ -1,6 +1,7 @@
 package com.ymnn.askquestion.controller;
 
 import com.ymnn.askquestion.dto.request.CommentRequest;
+import com.ymnn.askquestion.dto.response.CommentResponse;
 import com.ymnn.askquestion.entity.Comment;
 import com.ymnn.askquestion.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @GetMapping("/comments/{postId}")
-    public ResponseEntity<List<Comment>> getAllComments(@PathVariable Integer postId) {
+    public ResponseEntity<List<CommentResponse>> getAllComments(@PathVariable Integer postId) {
         return ResponseEntity.ok(commentService.getAllComments(postId));
     }
     @GetMapping("/comments/{postId}/{userId}")

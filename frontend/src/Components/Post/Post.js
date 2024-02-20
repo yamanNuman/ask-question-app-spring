@@ -10,9 +10,11 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
-import {makeStyles} from "@material-ui/core";
+import {Container, makeStyles} from "@material-ui/core";
 import {Link} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
+import Comment from "../Comment/Comment";
+import CommentForm from "../Comment/CommentForm";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -53,17 +55,42 @@ const ExpandMore = styled((props) => {
 
 export default function Post(props) {
     const classes = useStyles();
-    const{userId,username,title,text} = props;
+    const{userId,username,title,text,postId} = props;
     const [expanded, setExpanded] = React.useState(false);
     const [like,setLike] = useState(false);
+    const [comment,setComment] = useState([]);
+    const [isLoaded,setIsLoaded] = useState(false);
+    const [error,setError] = useState(null);
+    const isInitialMount = useRef(true);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
+        console.log(comment);
     };
     const handleLike = () => {
         setLike(!like)
     }
+    const refreshComment = () => {
+        fetch(`http://localhost:8080/api/v1/comments/${postId}`)
+            .then((res) => res.json())
+            .then((result) => {
+                setIsLoaded(true);
+                setComment(result);
+            },
+                (error) => {
+                console.log(error);
+                setError(error);
+                setIsLoaded(true);
+                })
+    }
 
+    useEffect(() => {
+        if(isInitialMount.current){
+            isInitialMount.current = false;
+        } else {
+            refreshComment();
+        }
+    },[])
     return (
         <Card className={classes.root}>
             <CardHeader
@@ -96,9 +123,13 @@ export default function Post(props) {
                 </ExpandMore>
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
-
-                </CardContent>
+                <Container fixed className={classes.container}>
+                    {error? "error" :
+                    isLoaded? comment.map(item => (
+                        <Comment userId={item.userId} username={item.username} text={item.text}></Comment>
+                    )):"Loading"}
+                    <CommentForm></CommentForm>
+                </Container>
             </Collapse>
         </Card>
     );
