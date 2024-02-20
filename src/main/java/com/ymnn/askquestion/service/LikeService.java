@@ -1,6 +1,6 @@
 package com.ymnn.askquestion.service;
 
-import com.ymnn.askquestion.dto.request.LikeRequest;
+import com.ymnn.askquestion.dto.response.LikeResponse;
 import com.ymnn.askquestion.entity.Like;
 import com.ymnn.askquestion.entity.Post;
 import com.ymnn.askquestion.entity.User;
@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,8 +24,10 @@ public class LikeService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
 
-    public List<Like> getAllLikes(Integer postId) {
-       return likeRepository.findIsLike(postId);
+    public List<LikeResponse> getAllLikes(Optional<Integer> postId) {
+       List<Like> list;
+       list = likeRepository.findIsLike(postId);
+        return list.stream().map(like -> new LikeResponse(like)).collect(Collectors.toList());
     }
 
     public Like getLikeById(Integer likeId) {
@@ -31,28 +35,20 @@ public class LikeService {
         return like;
     }
 
-    public void createLike(LikeRequest like,Integer userId, Integer postId) {
+    public void createLike(Integer userId, Integer postId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with the given id : " + userId));
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new PostNotFoundException("Post not found with the given id : " + postId));
         Like newLike = Like.builder()
-                .isLike(like.isLike())
                 .user(user)
                 .post(post)
                 .build();
         likeRepository.save(newLike);
     }
 
-    public void deleteLike(Integer likeId) {
-        likeRepository.findById(likeId).orElseThrow(() -> new LikeNotFoundException("Like not found with the given id : " + likeId));
-        likeRepository.deleteById(likeId);
+    public void deleteLike(Integer userId) {
+        likeRepository.deleteUserId(userId);
     }
 
-    public Like updateLike(LikeRequest like, Integer likeId) {
-        Like updateLike = likeRepository.findById(likeId).orElseThrow(() -> new LikeNotFoundException("Like not found with the given id : " + likeId));
-        updateLike.setLike(like.isLike());
-        likeRepository.save(updateLike);
-        return updateLike;
-    }
 }

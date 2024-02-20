@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
 function Comment(props) {
     const {text,userId,username} = props;
     const classes = useStyles();
-    console.log(userId);
     return (
         <CardContent>
             <OutlinedInput

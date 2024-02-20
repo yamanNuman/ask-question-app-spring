@@ -32,6 +32,4 @@ import org.hibernate.annotations.OnDeleteAction;
         @OnDelete(action = OnDeleteAction.CASCADE)
         @JsonIgnore
         private User user;
-        @Column(columnDefinition = "boolean default false")
-        private boolean isLike;
     }

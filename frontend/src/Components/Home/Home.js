@@ -45,7 +45,7 @@ function Home() {
             <div className={classes.container}>
                 <PostForm refreshPost={refreshPost}/>
                 {post.map(item => (
-                    <Post postId={item.id} username={item.username} userId={item.userId} title={item.title} text={item.text}></Post>
+                    <Post likes={item.postLikes} postId={item.id} username={item.username} userId={item.userId} title={item.title} text={item.text}></Post>
                 ))}
             </div>
         );

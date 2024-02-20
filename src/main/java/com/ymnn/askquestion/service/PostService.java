@@ -1,7 +1,9 @@
 package com.ymnn.askquestion.service;
 
 import com.ymnn.askquestion.dto.request.PostRequest;
+import com.ymnn.askquestion.dto.response.LikeResponse;
 import com.ymnn.askquestion.dto.response.PostResponse;
+import com.ymnn.askquestion.entity.Like;
 import com.ymnn.askquestion.entity.Post;
 import com.ymnn.askquestion.entity.User;
 import com.ymnn.askquestion.exception.PostNotFoundException;
@@ -9,6 +11,7 @@ import com.ymnn.askquestion.exception.UserNotFoundException;
 import com.ymnn.askquestion.repository.PostRepository;
 import com.ymnn.askquestion.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +22,11 @@ import java.util.stream.Collectors;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private  LikeService likeService;
+    @Autowired
+    public void setLikeService(LikeService likeService) {
+        this.likeService = likeService;
+    }
 
     public List<PostResponse> getAllPost(Optional<Integer> userId) {
         List<Post> list;
@@ -27,7 +35,10 @@ public class PostService {
         } else {
             list = postRepository.findAll();
         }
-        return list.stream().map(post -> new PostResponse(post)).collect(Collectors.toList());
+        return list.stream().map(post -> {
+            List<LikeResponse> likes = likeService.getAllLikes(Optional.of(post.getId()));
+            return new PostResponse(post,likes);
+        }).collect(Collectors.toList());
     }
 
     public Post getPostById(Integer id) {

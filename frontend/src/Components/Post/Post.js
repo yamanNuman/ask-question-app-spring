@@ -55,13 +55,15 @@ const ExpandMore = styled((props) => {
 
 export default function Post(props) {
     const classes = useStyles();
-    const{userId,username,title,text,postId} = props;
+    const{userId,username,title,text,postId,likes} = props;
     const [expanded, setExpanded] = React.useState(false);
     const [like,setLike] = useState(false);
     const [comment,setComment] = useState([]);
     const [isLoaded,setIsLoaded] = useState(false);
     const [error,setError] = useState(null);
     const isInitialMount = useRef(true);
+    const[likeCount,setLikeCount] = useState(likes.length);
+    const[likeId,setLikeId] = useState(null);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -69,6 +71,13 @@ export default function Post(props) {
     };
     const handleLike = () => {
         setLike(!like)
+        if(!like) {
+            saveLike();
+            setLikeCount(likeCount + 1)
+        } else {
+            deleteLike();
+            setLikeCount(likeCount - 1)
+        }
     }
     const refreshComment = () => {
         fetch(`http://localhost:8080/api/v1/comments/${postId}`)
@@ -91,6 +100,36 @@ export default function Post(props) {
             refreshComment();
         }
     },[])
+
+    const saveLike = () => {
+        fetch(`http://localhost:8080/api/v1/like/${postId}/${userId}`,{
+            method: "POST",
+            headers: {
+                "Content-Type":"application/json",
+            },
+        })
+            .then((res) => res.json())
+            .catch((err) => console.log(err));
+    }
+    const deleteLike = () => {
+        fetch(`http://localhost:8080/api/v1/like/${userId}`,{
+            method: "DELETE"
+        })
+            .then((res) => res.json())
+            .catch((err) => console.log(err))
+    }
+    const checkLikes = () => {
+        let likeControl = likes.find((like => like.userId === userId));
+        if(likeControl != null) {
+            setLikeId((likeControl.id));
+            console.log(likeId)
+            setLike(true);
+        }
+    }
+
+    useEffect(() => {
+        checkLikes()
+    },[])
     return (
         <Card className={classes.root}>
             <CardHeader
@@ -112,6 +151,7 @@ export default function Post(props) {
             <CardActions disableSpacing>
                 <IconButton onClick={handleLike} aria-label="add to favorites">
                     <FavoriteIcon style={like ? {color : "red"} : null}/>
+                    {likeCount}
                 </IconButton>
                 <ExpandMore
                     expand={expanded}
@@ -128,7 +168,7 @@ export default function Post(props) {
                     isLoaded? comment.map(item => (
                         <Comment userId={item.userId} username={item.username} text={item.text}></Comment>
                     )):"Loading"}
-                    <CommentForm></CommentForm>
+                    <CommentForm postId={postId} username={username}></CommentForm>
                 </Container>
             </Collapse>
         </Card>
