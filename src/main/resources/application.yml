@@ -26,3 +26,9 @@ springdoc:
     enabled: true
     path: /api/v1/test/swagger-ui
   api-docs.path: /api/v1/test/api-docs
+
+askquestion:
+  secret:
+    key: "YOU WILL NEVER WALK ALONE"
+  expires:
+    in: 604800
