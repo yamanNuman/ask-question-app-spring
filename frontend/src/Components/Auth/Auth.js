@@ -1,23 +1,43 @@
 import React, {useState} from 'react';
 import {Button, FormControl, FormHelperText, Input, InputLabel} from "@material-ui/core";
 import {Link} from "react-router-dom";
+import Swal from "sweetalert2";
 
 
 function Auth() {
-    const[login,setLogin] = useState(false);
-    const[register,setRegister] = useState(false);
     const[username,setUsername] = useState("");
     const[password,setPassword] = useState("");
-    const loginCheck = () => {
-        setLogin(true);
-        setRegister(true);
+
+    const alert = () => {
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Successfully registered.",
+            showConfirmButton: true,
+            timer: 1500
+        })
+            .then(
+                function () {
+                    window.location.href ="/login";
+                }
+            )
     }
-    const registerCheck = () => {
-        setRegister(false)
-        setLogin(false)
+    const errorAlert = () => {
+        Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Username available",
+            showConfirmButton: true,
+            timer: 1500
+        })
+            .then(
+                function () {
+                    window.location.href ="/auth";
+                }
+            )
     }
     const sendRequest = (path) => {
-        fetch(`http://localhost:8080/${path}`,{
+        fetch(`http://localhost:8080/api/v1/auth/register`,{
             method: "POST",
             headers: {
                 "Content-Type":"application/json"
@@ -29,11 +49,15 @@ function Auth() {
         })
             .then((res) => res.json())
             .then((result) => {
-                localStorage.setItem("token", result.message);
-                localStorage.setItem("currentUser",result.userId);
-                localStorage.setItem("currentUsername",result.username);
+                if(result.message === "Username already in use") {
+                    errorAlert();
+                }else {
+                    alert();
+                }
             })
-            .catch((err) => console.log(err))
+            .catch((err) => {
+                console.log(err)
+            })
     }
     const handleUsername = (value) => {
         setUsername(value);
@@ -41,18 +65,7 @@ function Auth() {
     const handlePassword = (value) => {
         setPassword(value);
     }
-    const handleRegister = () => {
-        sendRequest("api/v1/auth/register")
-        setUsername("");
-        setPassword("");
 
-    }
-    const handleLogin = () => {
-        sendRequest("api/v1/auth/login");
-        setUsername("");
-        setPassword("");
-
-    }
     return (
         <FormControl style={{top:20}}>
             <InputLabel>Username</InputLabel>
@@ -60,7 +73,7 @@ function Auth() {
             <InputLabel style={{top:80}}>Password</InputLabel>
             <Input onChange={(i) => handlePassword(i.target.value)}
                 style={{top:40}}/>
-          <Button onClick={handleRegister} variant="contained"
+          <Button onClick={sendRequest} variant="contained"
                                        style={{marginTop:60,
                                            background:"linear-gradient(45deg, #3c6e71 30%, #21CBF3 90%)",
                                            color:'white'}}

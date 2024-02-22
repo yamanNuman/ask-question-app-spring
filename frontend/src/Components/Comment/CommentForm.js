@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 function CommentForm(props) {
-    const {userId,username,postId} = props;
+    const {userId,postId} = props;
     const classes = useStyles();
     const [text,setText] = useState("");
     const saveComment = () => {
@@ -29,6 +29,7 @@ function CommentForm(props) {
             method: "POST",
             headers: {
                 "Content-Type" : "application/json",
+                "Authorization" : localStorage.getItem("token")
             },
             body: JSON.stringify({
                 text: text

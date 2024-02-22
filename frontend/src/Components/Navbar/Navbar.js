@@ -4,7 +4,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {makeStyles} from "@material-ui/core";
 import {LockOpen} from "@material-ui/icons";
 
@@ -26,10 +26,13 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 function Navbar(props) {
+    let navigate = useNavigate();
     const logout = () => {
         localStorage.removeItem("currentUser");
         localStorage.removeItem("currentUsername");
         localStorage.removeItem("token");
+        navigate("/login")
+
     }
     let userId = localStorage.getItem("currentUser");
     const classes = useStyles();
@@ -47,7 +50,7 @@ function Navbar(props) {
                         {localStorage.getItem("currentUser") == null ? <Link className={classes.link} to="/"></Link>  :
                             <div>
                                 <IconButton onClick={logout}><LockOpen></LockOpen></IconButton>
-                            <Link className={classes.link} to={"/users/" + userId}>Profile</Link>
+                            <Link className={classes.link} to={"/users/" + userId}>{localStorage.getItem("currentUsername")}</Link>
                             </div>
                         }
                     </Typography>

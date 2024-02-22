@@ -13,7 +13,7 @@ const Welcome = () => {
         navigate('/signup')
     }
     return (
-        <div>
+        <div className="w-container">
             <div className='welcome-container'>
                 <div className='welcome-header'>
                     <div className='welcome-text'>Ask Question App</div>

@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import Post from "../Post/Post";
 import {makeStyles} from "@material-ui/core";
 import PostForm from "../Post/PostForm";
-import Navbar from "../Navbar/Navbar";
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -46,7 +45,8 @@ function Home() {
     } else {
         return (
             <div className={classes.container}>
-                <PostForm refreshPost={refreshPost}/>
+                {localStorage.getItem("currentUser") === null ? "" :
+                    <PostForm userId={localStorage.getItem("currentUser")} username={localStorage.getItem("currentUsername")} refreshPost={refreshPost}/>}
                 {post.map(item => (
                     <Post likes={item.postLikes} postId={item.id} username={item.username} userId={item.userId} title={item.title} text={item.text}></Post>
                 ))}

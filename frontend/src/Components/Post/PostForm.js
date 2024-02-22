@@ -6,7 +6,7 @@ import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import {Button, InputAdornment, makeStyles, OutlinedInput, Snackbar} from "@material-ui/core";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {Alert} from "@mui/material";
 
@@ -45,11 +45,12 @@ export default function PostForm(props) {
     const[isSent,setIsSet] = useState(false);
 
     const savePost = () => {
-        fetch(`http://localhost:8080/api/v1/post/1`,
+        fetch(`http://localhost:8080/api/v1/post/${userId}`,
             {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization" : localStorage.getItem("token")
                 },
                 body: JSON.stringify({
                     title: title,
@@ -57,6 +58,7 @@ export default function PostForm(props) {
                 }),
             })
             .then((res) => res.json())
+            .then(result => console.log(result))
             .catch((err) => console.log(err))
     }
 

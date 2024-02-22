@@ -64,6 +64,7 @@ export default function Post(props) {
     const isInitialMount = useRef(true);
     const[likeCount,setLikeCount] = useState(likes.length);
     const[likeId,setLikeId] = useState(null);
+    let disabled = localStorage.getItem("currentUser") === null ? true : false;
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -106,6 +107,7 @@ export default function Post(props) {
             method: "POST",
             headers: {
                 "Content-Type":"application/json",
+                "Authorization" : localStorage.getItem("token")
             },
         })
             .then((res) => res.json())
@@ -113,7 +115,10 @@ export default function Post(props) {
     }
     const deleteLike = () => {
         fetch(`http://localhost:8080/api/v1/like/${userId}`,{
-            method: "DELETE"
+            method: "DELETE",
+            headers: {
+                "Authorization" : localStorage.getItem("token")
+            }
         })
             .then((res) => res.json())
             .catch((err) => console.log(err))
@@ -149,10 +154,13 @@ export default function Post(props) {
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton onClick={handleLike} aria-label="add to favorites">
+                {disabled ? "" : <IconButton
+                    onClick={handleLike}
+                    aria-label="add to favorites">
                     <FavoriteIcon style={like ? {color : "red"} : null}/>
                     {likeCount}
-                </IconButton>
+                </IconButton>}
+
                 <ExpandMore
                     expand={expanded}
                     onClick={handleExpandClick}
@@ -168,7 +176,7 @@ export default function Post(props) {
                     isLoaded? comment.map(item => (
                         <Comment userId={item.userId} username={item.username} text={item.text}></Comment>
                     )):"Loading"}
-                    <CommentForm postId={postId} username={username}></CommentForm>
+                    {disabled ? "" : <CommentForm postId={postId} username={username}></CommentForm>}
                 </Container>
             </Collapse>
         </Card>
