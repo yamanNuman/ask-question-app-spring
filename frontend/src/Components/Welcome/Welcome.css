@@ -1,0 +1,52 @@
+.welcome-container {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 200px;
+    width: 750px;
+    background: white;
+    border-radius: 10px;
+    padding-bottom: 30px;
+}
+
+.welcome-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.welcome-text {
+    color: #3c6e71;
+    font-size: 48px;
+    font-weight: 700;
+}
+
+.welcome-underline {
+    width: 61px;
+    height: 6px;
+    background: #3c6e71;
+    border-radius: 9px;
+}
+
+.welcome-submit-container {
+    display: flex;
+    gap: 30px;
+    margin: 60px auto;
+}
+
+.welcome-submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 220px;
+    height: 59px;
+    color: whitesmoke;
+    background: #3c6e71;
+    border-radius: 50px;
+    font-size: 19px;
+    font-weight: 700;
+    cursor: pointer;
+}

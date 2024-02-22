@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Post from "../Post/Post";
 import {makeStyles} from "@material-ui/core";
 import PostForm from "../Post/PostForm";
+import Navbar from "../Navbar/Navbar";
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -37,9 +38,11 @@ function Home() {
     },[]);
 
     if(error) {
-        return <div>Error</div>
+        return <div>
+            Error</div>
     } else if(!isLoaded) {
-        return <div>Loading...</div>
+        return<div>
+            Loading...</div>
     } else {
         return (
             <div className={classes.container}>

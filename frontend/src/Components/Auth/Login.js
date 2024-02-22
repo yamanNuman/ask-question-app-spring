@@ -3,19 +3,10 @@ import {Button, FormControl, FormHelperText, Input, InputLabel} from "@material-
 import {Link} from "react-router-dom";
 
 
-function Auth() {
-    const[login,setLogin] = useState(false);
-    const[register,setRegister] = useState(false);
+function Login() {
     const[username,setUsername] = useState("");
     const[password,setPassword] = useState("");
-    const loginCheck = () => {
-        setLogin(true);
-        setRegister(true);
-    }
-    const registerCheck = () => {
-        setRegister(false)
-        setLogin(false)
-    }
+
     const sendRequest = (path) => {
         fetch(`http://localhost:8080/${path}`,{
             method: "POST",
@@ -59,15 +50,16 @@ function Auth() {
             <Input onChange={(i) => handleUsername(i.target.value)}/>
             <InputLabel style={{top:80}}>Password</InputLabel>
             <Input onChange={(i) => handlePassword(i.target.value)}
-                style={{top:40}}/>
-          <Button onClick={handleRegister} variant="contained"
-                                       style={{marginTop:60,
-                                           background:"linear-gradient(45deg, #3c6e71 30%, #21CBF3 90%)",
-                                           color:'white'}}
-            >Register</Button>
-                    <FormHelperText style={{margin:20}}>Are your already registered ? Click on the <Link to="/login">Login</Link></FormHelperText>
+                   style={{top:40}}/>
+            <Button onClick={handleLogin} variant="contained"
+                             style={{marginTop:60,
+                                 background:"linear-gradient(45deg, #3c6e71 30%, #21CBF3 90%)",
+                                 color:'white'}}
+            >Login</Button>
+           <FormHelperText style={{margin:20}}>If you are not registered, click <Link to="/auth">Register</Link></FormHelperText>
+
         </FormControl>
     );
 }
 
-export default Auth;
+export default Login;
