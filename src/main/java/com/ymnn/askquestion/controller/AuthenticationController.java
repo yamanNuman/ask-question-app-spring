@@ -1,6 +1,7 @@
 package com.ymnn.askquestion.controller;
 
 import com.ymnn.askquestion.dto.request.UserRequest;
+import com.ymnn.askquestion.dto.response.AuthenticationResponse;
 import com.ymnn.askquestion.entity.User;
 import com.ymnn.askquestion.jwt.JwtTokenProvider;
 import com.ymnn.askquestion.service.UserService;
@@ -27,24 +28,32 @@ public class AuthenticationController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     @PostMapping("/login")
-    public String login(@RequestBody UserRequest request) {
+    public AuthenticationResponse login(@RequestBody UserRequest request) {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(request.getUsername(),request.getPassword());
         Authentication auth = authenticationManager.authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(auth);
         String jwtToken = jwtTokenProvider.generateJwtToken(auth);
-        return "Bearer " + jwtToken;
+        User user =  userService.getUserByUsername(request.getUsername());
+        AuthenticationResponse authenticationResponse = new AuthenticationResponse();
+        authenticationResponse.setMessage("Bearer " + jwtToken);
+        authenticationResponse.setUserId(user.getId());
+        authenticationResponse.setUsername(user.getUsername());
+        return authenticationResponse;
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody UserRequest request) {
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody UserRequest request) {
+        AuthenticationResponse authenticationResponse = new AuthenticationResponse();
         if(userService.getUserByUsername(request.getUsername()) != null) {
-            return new ResponseEntity<>("Username already in use.", HttpStatus.BAD_REQUEST);
+            authenticationResponse.setMessage("Username already in use");
+            return new ResponseEntity(authenticationResponse, HttpStatus.BAD_REQUEST);
         }
         User user = new User();
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         userService.createUser(user);
-        return new ResponseEntity<>("User registered.",HttpStatus.CREATED);
+        authenticationResponse.setMessage("User registered.");
+        return new ResponseEntity(authenticationResponse,HttpStatus.CREATED);
     }
 }
