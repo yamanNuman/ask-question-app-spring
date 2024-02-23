@@ -13,6 +13,8 @@ import com.ymnn.askquestion.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -53,6 +55,7 @@ public class PostService {
         Post newPost = Post.builder()
                         .text(post.getText())
                         .title(post.getTitle())
+                        .createDate(new Date())
                         .user(user)
                         .build();
         postRepository.save(newPost);

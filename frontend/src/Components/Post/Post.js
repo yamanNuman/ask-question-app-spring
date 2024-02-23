@@ -176,7 +176,7 @@ export default function Post(props) {
                     isLoaded? comment.map(item => (
                         <Comment userId={item.userId} username={item.username} text={item.text}></Comment>
                     )):"Loading"}
-                    {disabled ? "" : <CommentForm postId={postId} username={username}></CommentForm>}
+                    {disabled ? "" : <CommentForm postId={postId} username={username} userId={userId}></CommentForm>}
                 </Container>
             </Collapse>
         </Card>

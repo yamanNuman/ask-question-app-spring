@@ -25,7 +25,7 @@ function CommentForm(props) {
     const classes = useStyles();
     const [text,setText] = useState("");
     const saveComment = () => {
-        fetch(`http://localhost:8080/api/v1/comment/${postId}/1`,{
+        fetch(`http://localhost:8080/api/v1/comment/${postId}/${localStorage.getItem("currentUser")}`,{
             method: "POST",
             headers: {
                 "Content-Type" : "application/json",

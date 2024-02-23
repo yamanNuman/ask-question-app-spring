@@ -2,6 +2,9 @@ package com.ymnn.askquestion.service;
 
 import com.ymnn.askquestion.entity.User;
 import com.ymnn.askquestion.exception.UserNotFoundException;
+import com.ymnn.askquestion.repository.CommentRepository;
+import com.ymnn.askquestion.repository.LikeRepository;
+import com.ymnn.askquestion.repository.PostRepository;
 import com.ymnn.askquestion.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,6 +15,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final LikeRepository likeRepository;
+    private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
 
     public List<User> getAllUsers() {
         List<User> allUsers = userRepository.findAll();
@@ -46,4 +52,5 @@ public class UserService {
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+
 }

@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.Date;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -27,4 +29,6 @@ public class Post {
     private String title;
     @Lob
     private String text;
+    @Temporal(TemporalType.TIMESTAMP)
+    Date createDate;
 }

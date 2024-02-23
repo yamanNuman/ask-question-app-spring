@@ -14,6 +14,7 @@ import com.ymnn.askquestion.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,6 +52,7 @@ public class CommentService {
         Comment newComment = Comment.builder()
                 .post(post)
                 .user(user)
+                .createDate(new Date())
                 .text(comment.getText())
                 .build();
         commentRepository.save(newComment);

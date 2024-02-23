@@ -34,7 +34,7 @@ function Comment(props) {
                 value={text}
                 startAdornment = {
                     <InputAdornment position="start">
-                        <Link className={classes.link} to={`/users/${userId}`}>
+                        <Link className={classes.link} to={`/users/${localStorage.getItem("currentUser")}`}>
                             <Avatar className={classes.avatar} aria-label="recipe">
                                 {username.charAt(0).toUpperCase()}
                             </Avatar>

@@ -20,4 +20,6 @@ public class User {
     private Integer id;
     private String username;
     private String password;
+    @Column(columnDefinition = "integer default 0")
+    private int avatar;
 }

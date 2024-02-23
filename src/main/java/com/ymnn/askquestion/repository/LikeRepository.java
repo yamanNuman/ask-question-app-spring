@@ -1,6 +1,7 @@
 package com.ymnn.askquestion.repository;
 
 import com.ymnn.askquestion.dto.response.LikeResponse;
+import com.ymnn.askquestion.entity.Comment;
 import com.ymnn.askquestion.entity.Like;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;

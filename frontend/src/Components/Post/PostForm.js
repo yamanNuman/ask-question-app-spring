@@ -6,7 +6,7 @@ import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import {Button, InputAdornment, makeStyles, OutlinedInput, Snackbar} from "@material-ui/core";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useState} from "react";
 import {Alert} from "@mui/material";
 
