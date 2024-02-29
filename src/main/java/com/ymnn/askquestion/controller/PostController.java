@@ -4,6 +4,7 @@ import com.ymnn.askquestion.dto.request.PostRequest;
 import com.ymnn.askquestion.dto.response.PostResponse;
 import com.ymnn.askquestion.entity.Post;
 import com.ymnn.askquestion.service.PostService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "Bearer Authentication")
 public class PostController {
     private final PostService postService;
 

@@ -5,6 +5,7 @@ import com.ymnn.askquestion.dto.response.AuthenticationResponse;
 import com.ymnn.askquestion.entity.User;
 import com.ymnn.askquestion.jwt.JwtTokenProvider;
 import com.ymnn.askquestion.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
+@Tag(name = "Authentication" , description = "First of all, register to obtain tokens. " +
+        "After creating a registration, your information will be saved in the database.")
 public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
