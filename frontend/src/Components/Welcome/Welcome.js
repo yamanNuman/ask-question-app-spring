@@ -10,7 +10,7 @@ const Welcome = () => {
         navigate('/login');
     }
     const navigateSignUp = () => {
-        navigate('/signup')
+        navigate('/auth')
     }
     return (
         <div className="w-container">
